@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Money Grows While You Sleep</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script type="module" src="app.js"></script>
+</head>
+<body>
+
+<div id="loadingScreen">
+    <div class="loader"></div>
+    <h2>Finance Tracker Pro</h2>
+</div>
+
+<header>
+    <div class="logo">
+        💰 Finance Tracker Pro
+    </div>
+
+    <div class="userSection">
+        <span id="userName">Guest</span>
+
+        <button id="loginBtn">
+            Login
+        </button>
+
+        <button id="registerBtn">
+            Register
+        </button>
+
+        <button id="logoutBtn" class="hidden">
+            Logout
+        </button>
+    </div>
+</header>
+
+<main>
+
+<section id="authSection">
+
+<div class="authContainer">
+
+<div class="authTabs">
+<button class="tabBtn active" data-tab="login">
+Login
+</button>
+
+<button class="tabBtn" data-tab="register">
+Register
+</button>
+</div>
+
+<form id="loginForm" class="authForm">
+
+<h2>Login</h2>
+
+<input
+type="email"
+id="loginEmail"
+placeholder="Email"
+required>
+
+<input
+type="password"
+id="loginPassword"
+placeholder="Password"
+required>
+
+<button type="submit">
+Login
+</button>
+
+<button type="button" id="googleLogin">
+Login With Google
+</button>
+
+</form>
+
+<form id="registerForm" class="authForm hidden">
+
+<h2>Create Account</h2>
+
+<input
+type="text"
+id="regName"
+placeholder="Full Name"
+required>
+
+<input
+type="email"
+id="regEmail"
+placeholder="Email"
+required>
+
+<input
+type="password"
+id="regPassword"
+placeholder="Password"
+required>
+
+<button type="submit">
+Register
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+<section id="appSection" class="hidden">
+
+<div class="dashboardGrid">
+
+<div class="card">
+<h3>Total Income</h3>
+<h2 id="totalIncome">
+৳0
+</h2>
+</div>
+
+<div class="card">
+<h3>Total Expense</h3>
+<h2 id="totalExpense">
+৳0
+</h2>
+</div>
+
+<div class="card">
+<h3>Total Savings</h3>
+<h2 id="totalSavings">
+৳0
+</h2>
+</div>
+
+<div class="card">
+<h3>Active Loans</h3>
+<h2 id="activeLoans">
+0
+</h2>
+</div>
+
+<div class="card">
+<h3>Upcoming EMI</h3>
+<h2 id="upcomingEMI">
+৳0
+</h2>
+</div>
+
+<div class="card">
+<h3>Health Score</h3>
+<h2 id="healthScore">
+100
+</h2>
+</div>
+
+</div>
+
+<div class="pageGrid">
+
+<div class="leftPanel">
+
+<div class="panel">
+
+<h2>
+Profile
+</h2>
+
+<div class="profileArea">
+
+<img
+id="profilePreview"
+src="https://via.placeholder.com/120"
+alt="Profile">
+
+<input
+type="file"
+id="profileImage">
+
+<input
+type="text"
+id="profileName"
+placeholder="Full Name">
+
+<input
+type="text"
+id="profileOccupation"
+placeholder="Occupation">
+
+<input
+type="text"
+id="profilePhone"
+placeholder="Phone">
+
+<input
+type="text"
+id="profileAddress"
+placeholder="Address">
+
+<button id="saveProfile">
+Save Profile
+</button>
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<h2>
+Add Income
+</h2>
+
+<form id="incomeForm">
+
+<input
+type="text"
+id="incomeSource"
+placeholder="Income Source">
+
+<input
+type="number"
+id="incomeAmount"
+placeholder="Amount">
+
+<input
+type="date"
+id="incomeDate">
+
+<input
+type="text"
+id="incomeNote"
+placeholder="Note">
+
+<button type="submit">
+Add Income
+</button>
+
+</form>
+
+</div>
+
+<div class="panel">
+
+<h2>
+Add Expense
+</h2>
+
+<form id="expenseForm">
+
+<select id="expenseCategory">
+
+<option value="">
+Category
+</option>
+
+<option>
+Groceries
+</option>
+
+<option>
+Restaurant
+</option>
+
+<option>
+Shopping
+</option>
+
+<option>
+Medical
+</option>
+
+<option>
+Transport
+</option>
+
+<option>
+Education
+</option>
+
+<option>
+Entertainment
+</option>
+
+<option>
+Utility
+</option>
+
+<option>
+Other
+</option>
+
+</select>
+
+<input
+type="number"
+id="expenseAmount"
+placeholder="Amount">
+
+<input
+type="date"
+id="expenseDate">
+
+<input
+type="text"
+id="expenseNote"
+placeholder="Note">
+
+<button type="submit">
+Add Expense
+</button>
+
+</form>
+
+</div>
+
+<div class="panel">
+
+<h2>
+Loan Management
+</h2>
+
+<form id="loanForm">
+
+<input
+type="text"
+id="loanName"
+placeholder="Loan Name">
+
+<input
+type="number"
+id="loanPrincipal"
+placeholder="Principal Amount">
+
+<input
+type="number"
+id="loanRate"
+placeholder="Interest Rate %">
+
+<input
+type="number"
+id="loanMonths"
+placeholder="Months">
+
+<button type="submit">
+Create Loan
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+<div class="rightPanel">
+
+<div class="panel">
+
+<h2>
+Financial Overview
+</h2>
+
+<canvas id="financeChart">
+</canvas>
+
+</div>
+
+<div class="panel">
+
+<h2>
+Expense Breakdown
+</h2>
+
+<canvas id="expenseChart">
+</canvas>
+
+</div>
+
+<div class="panel">
+
+<h2>
+AI Savings Suggestions
+</h2>
+
+<div id="suggestions">
+
+<p>
+No data available.
+</p>
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<h2>
+Reports
+</h2>
+
+<div class="reportControls">
+
+<input
+type="date"
+id="reportFrom">
+
+<input
+type="date"
+id="reportTo">
+
+<button id="downloadPdf">
+Download PDF
+</button>
+
+</div>
+
+<div id="reportSummary">
+
+<div class="summaryCard">
+<h4>Daily</h4>
+<p id="dailySummary">
+-
+</p>
+</div>
+
+<div class="summaryCard">
+<h4>Weekly</h4>
+<p id="weeklySummary">
+-
+</p>
+</div>
+
+<div class="summaryCard">
+<h4>Monthly</h4>
+<p id="monthlySummary">
+-
+</p>
+</div>
+
+<div class="summaryCard">
+<h4>Quarterly</h4>
+<p id="quarterlySummary">
+-
+</p>
+</div>
+
+<div class="summaryCard">
+<h4>Bi-Yearly</h4>
+<p id="biyearlySummary">
+-
+</p>
+</div>
+
+<div class="summaryCard">
+<h4>Yearly</h4>
+<p id="yearlySummary">
+-
+</p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<section class="tablesSection">
+
+<div class="panel">
+
+<h2>
+Income Records
+</h2>
+
+<div class="tableWrapper">
+
+<table>
+
+<thead>
+<tr>
+<th>Date</th>
+<th>Source</th>
+<th>Amount</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="incomeTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<h2>
+Expense Records
+</h2>
+
+<div class="tableWrapper">
+
+<table>
+
+<thead>
+<tr>
+<th>Date</th>
+<th>Category</th>
+<th>Amount</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="expenseTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div class="panel">
+
+<h2>
+Loans & EMI
+</h2>
+
+<div class="tableWrapper">
+
+<table>
+
+<thead>
+<tr>
+<th>Loan</th>
+<th>Principal</th>
+<th>EMI</th>
+<th>Balance</th>
+</tr>
+</thead>
+
+<tbody id="loanTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</section>
+
+</section>
+
+</main>
+
+<div id="toast"></div>
+
+</body>
+</html>
