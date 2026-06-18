@@ -33,7 +33,6 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
 import {
-  getFirestore,
   doc,
   setDoc,
   getDoc,
